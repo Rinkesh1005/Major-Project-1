@@ -22,7 +22,7 @@ const ProductListPage = ({
     sortBy: "",
   });
 
-  const { data, loading, error } = useFetch("http://localhost:3000/products");
+  const { data, loading, error } = useFetch("https://major-project-1-backend-eta.vercel.app/products");
   const products = data ?? [];
 
   const filteredProducts = products

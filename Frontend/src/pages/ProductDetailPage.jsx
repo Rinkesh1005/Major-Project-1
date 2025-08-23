@@ -16,7 +16,7 @@ const ProductDetailPage = ({
     data: product,
     loading,
     error,
-  } = useFetch(`http://localhost:3000/products/${id}`);
+  } = useFetch(`https://major-project-1-backend-eta.vercel.app/${id}`);
 
   if (loading) return <p className="container py-2">Loading products...</p>;
   if (error) return <p className="container py-2">Error loading products: {error}</p>;
@@ -32,7 +32,6 @@ const ProductDetailPage = ({
     );
   }
 
-  // Ensure 'id' property present (if only _id comes from API)
   const finalProduct = { ...product, id: product.id || product._id };
 
   const isInCart = cart.some((item) => item.id === finalProduct.id);
