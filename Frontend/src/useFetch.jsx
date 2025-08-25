@@ -1,8 +1,7 @@
-// src/useFetch.js
 import { useState, useEffect } from "react";
 
 const useFetch = (url) => {
-  const [data, setData] = useState(null); // Changed initial state to null
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -23,12 +22,12 @@ const useFetch = (url) => {
         const result = await response.json();
 
         if (isMounted) {
-          setData(result); // Set the data directly, whether it's an array or an object
+          setData(result);
         }
       } catch (err) {
         if (isMounted) {
           setError(err.message || "Something went wrong");
-          setData(null); // Set data to null on error
+          setData(null);
         }
       } finally {
         if (isMounted) setLoading(false);
