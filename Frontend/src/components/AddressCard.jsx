@@ -19,7 +19,7 @@ const AddressCard = ({ address, onSelect, onRemove, onEdit, isSelected }) => {
           </button>
           <button
             className="btn btn-sm btn-outline-secondary me-2"
-            onClick={() => onEdit(address.id)}
+            onClick={() => onEdit(address)}
           >
             Edit
           </button>

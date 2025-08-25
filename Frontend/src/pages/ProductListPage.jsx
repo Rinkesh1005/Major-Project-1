@@ -22,7 +22,9 @@ const ProductListPage = ({
     sortBy: "",
   });
 
-  const { data, loading, error } = useFetch("https://major-project-1-backend-eta.vercel.app/products");
+  const { data, loading, error } = useFetch(
+    "https://major-project-1-backend-eta.vercel.app/products"
+  );
   const products = data ?? [];
 
   const filteredProducts = products
@@ -48,7 +50,10 @@ const ProductListPage = ({
     });
 
   const onAddToCart = (productToAdd) => {
-    const productWithId = { ...productToAdd, id: productToAdd.id || productToAdd._id };
+    const productWithId = {
+      ...productToAdd,
+      id: productToAdd.id || productToAdd._id,
+    };
     const existingCartItem = cart.find((item) => item.id === productWithId.id);
     if (existingCartItem) {
       setCart(
@@ -64,7 +69,10 @@ const ProductListPage = ({
   };
 
   const onAddToWishlist = (productToAdd) => {
-    const productWithId = { ...productToAdd, id: productToAdd.id || productToAdd._id };
+    const productWithId = {
+      ...productToAdd,
+      id: productToAdd.id || productToAdd._id,
+    };
     const existingItem = wishlist.find((item) => item.id === productWithId.id);
     if (existingItem) {
       setWishlist(wishlist.filter((item) => item.id !== productWithId.id));
@@ -78,7 +86,8 @@ const ProductListPage = ({
   };
 
   if (loading) return <p className="container py-2">Loading products...</p>;
-  if (error) return <p className="container py-2">Error loading products: {error}</p>;
+  if (error)
+    return <p className="container py-2">Error loading products: {error}</p>;
 
   return (
     <>
@@ -93,16 +102,23 @@ const ProductListPage = ({
               Showing All Products ({filteredProducts.length} products)
             </h2>
             <div className="row row-cols-1 row-cols-md-3 g-4">
-              {filteredProducts.map((product, index) => (
-                <div key={product.id || product._id || index} className="col">
-                  <ProductCard
-                    product={product}
-                    onAddToCart={onAddToCart}
-                    onAddToWishlist={onAddToWishlist}
-                    isWishlisted={isWishlisted(product.id || product._id)}
-                  />
-                </div>
-              ))}
+              {filteredProducts.map((product) => {
+                const productWithId = {
+                  ...product,
+                  id: product.id || product._id,
+                };
+
+                return (
+                  <div key={productWithId.id} className="col mb-4">
+                    <ProductCard
+                      product={productWithId}
+                      onAddToCart={onAddToCart}
+                      onAddToWishlist={onAddToWishlist}
+                      isWishlisted={isWishlisted(productWithId.id)}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

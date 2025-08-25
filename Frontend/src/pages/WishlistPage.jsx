@@ -1,4 +1,5 @@
 import Header from "../components/Header";
+import { toast } from "react-toastify";
 
 const WishlistPage = ({
   wishlist,
@@ -9,7 +10,9 @@ const WishlistPage = ({
   setSearchQuery,
 }) => {
   const removeFromWishlist = (productId) => {
+    const item = wishlist.find((item) => item.id === productId);
     setWishlist(wishlist.filter((item) => item.id !== productId));
+    toast.error(`${item.name} removed from wishlist!`);
   };
 
   const moveToCart = (productToAdd) => {
@@ -26,6 +29,7 @@ const WishlistPage = ({
       setCart([...cart, { ...productToAdd, quantity: 1 }]);
     }
     removeFromWishlist(productToAdd.id);
+    toast.success(`${productToAdd.name} moved to cart!`);
   };
 
   const filteredWishlist = wishlist.filter((item) =>
@@ -36,34 +40,46 @@ const WishlistPage = ({
     <>
       <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <div className="container mt-4">
-        <h2>My Wishlist ({filteredWishlist.length} items)</h2>
+        <h2 className="mb-4">My Wishlist ({filteredWishlist.length} items)</h2>
         <div className="row mt-4">
           {filteredWishlist.length === 0 ? (
-            <p>Your wishlist is empty.</p>
+            <div className="col-12 text-center">
+              <p className="lead">Your wishlist is empty.</p>
+            </div>
           ) : (
             filteredWishlist.map((item) => (
-              <div key={item._id} className="col-md-3 mb-4">
+              <div key={item._id || item.id} className="col-md-3 mb-4">
                 <div className="card h-100">
                   <img
                     src={item.image}
                     className="card-img-top"
                     alt={item.name}
+                    style={{ height: "250px", objectFit: "cover" }}
                   />
-                  <div className="card-body text-center">
+                  <div className="card-body text-center d-flex flex-column">
                     <h5 className="card-title">{item.name}</h5>
-                    <p className="card-text">₹{item.price}</p>
-                    <button
-                      className="btn btn-primary btn-sm me-2"
-                      onClick={() => moveToCart(item)}
-                    >
-                      Move to Cart
-                    </button>
-                    <button
-                      className="btn btn-outline-danger btn-sm"
-                      onClick={() => removeFromWishlist(item.id)}
-                    >
-                      ❌
-                    </button>
+                    <p className="card-text text-primary fw-bold">
+                      ₹{item.price}
+                    </p>
+                    {item.rating && (
+                      <p className="card-text">
+                        <small className="text-muted">⭐ {item.rating}</small>
+                      </p>
+                    )}
+                    <div className="mt-auto d-flex gap-2 justify-content-center">
+                      <button
+                        className="btn btn-primary btn-sm"
+                        onClick={() => moveToCart(item)}
+                      >
+                        Move to Cart
+                      </button>
+                      <button
+                        className="btn btn-outline-danger btn-sm"
+                        onClick={() => removeFromWishlist(item.id)}
+                      >
+                        ❌
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

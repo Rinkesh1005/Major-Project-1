@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Header from "../components/Header";
 import AddressCard from "../components/AddressCard";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const initialAddresses = [
   {
@@ -23,17 +25,21 @@ const initialAddresses = [
   },
 ];
 
-const CheckoutPage = ({ searchQuery, setSearchQuery, cart, totalAmount }) => {
+const CheckoutPage = ({ searchQuery, setSearchQuery }) => {
+  const location = useLocation();
+  const { cart = [], totalAmount = 0 } = location.state || {};
+
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [addresses, setAddresses] = useState(initialAddresses);
 
   const handlePlaceOrder = () => {
     if (!selectedAddressId) {
-      alert("Please select an address before placing the order.");
+      toast.error("Please select an address before placing the order.");
       return;
     }
     setOrderPlaced(true);
+    toast.success("Order placed successfully!");
   };
 
   const handleSelect = (id) => {
@@ -45,17 +51,19 @@ const CheckoutPage = ({ searchQuery, setSearchQuery, cart, totalAmount }) => {
     if (selectedAddressId === id) {
       setSelectedAddressId(null);
     }
+    toast.info("Address removed successfully!");
   };
 
-  const handleEdit = (id) => {
-  const newCity = prompt("Enter new city:");
-  if (!newCity) return;
+  const handleEdit = (address) => {
+    const newCity = prompt("Enter new city:", address.city);
+    if (!newCity) return;
 
-  const updated = addresses.map((addr) =>
-    addr.id === id ? { ...addr, city: newCity } : addr
-  );
-  setAddresses(updated);
-};
+    const updated = addresses.map((addr) =>
+      addr.id === address.id ? { ...addr, city: newCity } : addr
+    );
+    setAddresses(updated);
+    toast.success("Address updated successfully!");
+  };
 
   const selectedAddress = addresses.find((a) => a.id === selectedAddressId);
 
@@ -95,7 +103,7 @@ const CheckoutPage = ({ searchQuery, setSearchQuery, cart, totalAmount }) => {
     <>
       <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <div className="container mt-4">
-        <h2>Checkout</h2>
+        <h2 className="mb-4">Checkout</h2>
         <div className="row mt-4">
           <div className="col-md-8">
             <h4>Select Delivery Address</h4>
@@ -110,21 +118,23 @@ const CheckoutPage = ({ searchQuery, setSearchQuery, cart, totalAmount }) => {
               />
             ))}
 
-            <h4 className="mt-4">Order Summary</h4>
-            <ul className="list-group">
-              {cart.map((item) => (
-                <li
-                  key={item.id}
-                  className="list-group-item d-flex justify-content-between align-items-center"
-                >
-                  <div>
-                    <strong>{item.name}</strong> <br />
-                    <small>Quantity: {item.quantity}</small>
-                  </div>
-                  <span>₹{item.price * item.quantity}</span>
-                </li>
-              ))}
-            </ul>
+            <div className="mb-4">
+              <h4 className="mt-4 mb-3">Order Summary</h4>
+              <ul className="list-group">
+                {cart.map((item) => (
+                  <li
+                    key={item.id}
+                    className="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    <div>
+                      <strong>{item.name}</strong> <br />
+                      <small>Quantity: {item.quantity}</small>
+                    </div>
+                    <span>₹{item.price * item.quantity}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           <div className="col-md-4 mt-4">

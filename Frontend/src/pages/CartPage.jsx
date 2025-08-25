@@ -1,5 +1,6 @@
 import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const CartPage = ({
   cart,
@@ -32,7 +33,9 @@ const CartPage = ({
   };
 
   const removeFromCart = (productId) => {
+    const item = cart.find((item) => item.id === productId);
     setCart(cart.filter((item) => item.id !== productId));
+    toast.error(`${item.name} removed from cart!`);
   };
 
   const moveToWishlist = (product) => {
@@ -40,6 +43,7 @@ const CartPage = ({
       setWishlist([...wishlist, product]);
     }
     removeFromCart(product.id);
+    toast.info(`${product.name} moved to wishlist!`);
   };
 
   const getTotal = () => {
@@ -54,7 +58,7 @@ const CartPage = ({
     <>
       <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <div className="container mt-4">
-        <h2>My Cart ({filteredCart.length} items)</h2>
+        <h2 className="mb-4">My Cart ({filteredCart.length} items)</h2>
         <div className="row mt-4">
           <div className="col-lg-8">
             {filteredCart.length === 0 ? (
@@ -111,15 +115,25 @@ const CartPage = ({
             <div className="col-lg-4">
               <div className="card shadow-sm">
                 <div className="card-body">
-                  <h5>PRICE DETAILS</h5>
+                  <h5 className="mb-3">PRICE DETAILS</h5>
                   <hr />
-                  <p>
-                    Price ({filteredCart.length} item): ₹{getTotal()}
-                  </p>
-                  <p className="text-success">Discount: -₹500</p>
-                  <p>Delivery Charges: ₹499</p>
+                  <div className="d-flex justify-content-between align-items-center mb-2">
+                    <span>Price ({filteredCart.length} item):</span>
+                    <span>₹{getTotal()}</span>
+                  </div>
+                  <div className="d-flex justify-content-between align-items-center mb-2">
+                    <span className="text-success">Discount:</span>
+                    <span className="text-success">-₹500</span>
+                  </div>
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <span>Delivery Charges:</span>
+                    <span>₹499</span>
+                  </div>
                   <hr />
-                  <h5>TOTAL AMOUNT: ₹{getTotal() - 500 + 499}</h5>
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <h5 className="mb-0">TOTAL AMOUNT:</h5>
+                    <h5 className="mb-0">₹{getTotal() - 500 + 499}</h5>
+                  </div>
                   <button
                     className="btn btn-primary w-100 mt-2"
                     onClick={() =>

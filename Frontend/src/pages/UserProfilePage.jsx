@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Header from "../components/Header";
 import AddressCard from "../components/AddressCard";
+import { toast } from "react-toastify";
 
 const UserProfilePage = ({ searchQuery, setSearchQuery }) => {
   const [addresses, setAddresses] = useState([]);
@@ -18,18 +19,23 @@ const UserProfilePage = ({ searchQuery, setSearchQuery }) => {
   const handleAddOrUpdateAddress = (e) => {
     e.preventDefault();
     if (Object.values(newAddress).some((val) => val === "")) {
+      toast.error("Please fill all address fields!");
       return;
     }
 
     if (editAddressId) {
       setAddresses(
         addresses.map((addr) =>
-          addr.id === editAddressId ? { ...newAddress, id: editAddressId } : addr
+          addr.id === editAddressId
+            ? { ...newAddress, id: editAddressId }
+            : addr
         )
       );
       setEditAddressId(null);
+      toast.success("Address updated!");
     } else {
       setAddresses([...addresses, { ...newAddress, id: Date.now() }]);
+      toast.success("Address added!");
     }
 
     setNewAddress({
