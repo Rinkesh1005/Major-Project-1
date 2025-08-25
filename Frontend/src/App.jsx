@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import HomePage from "./pages/HomePage";
 import ProductListPage from "./pages/ProductListPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
@@ -14,39 +14,39 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
   const [cart, setCart] = useState(() => {
     try {
-      const savedCart = localStorage.getItem("cart");
+      const savedCart = localStorage.getItem('cart');
       return savedCart ? JSON.parse(savedCart) : [];
     } catch (error) {
-      console.error("Error loading cart from localStorage:", error);
+      console.error('Error loading cart from localStorage:', error);
       return [];
     }
   });
-
+  
   const [wishlist, setWishlist] = useState(() => {
     try {
-      const savedWishlist = localStorage.getItem("wishlist");
+      const savedWishlist = localStorage.getItem('wishlist');
       return savedWishlist ? JSON.parse(savedWishlist) : [];
     } catch (error) {
-      console.error("Error loading wishlist from localStorage:", error);
+      console.error('Error loading wishlist from localStorage:', error);
       return [];
     }
   });
-
+  
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     try {
-      localStorage.setItem("cart", JSON.stringify(cart));
+      localStorage.setItem('cart', JSON.stringify(cart));
     } catch (error) {
-      console.error("Error saving cart to localStorage:", error);
+      console.error('Error saving cart to localStorage:', error);
     }
   }, [cart]);
 
   useEffect(() => {
     try {
-      localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      localStorage.setItem('wishlist', JSON.stringify(wishlist));
     } catch (error) {
-      console.error("Error saving wishlist to localStorage:", error);
+      console.error('Error saving wishlist to localStorage:', error);
     }
   }, [wishlist]);
 
@@ -117,8 +117,7 @@ function App() {
         <Route
           path="/profile"
           element={
-            <User
-              ProfilePage
+            <UserProfilePage
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
             />
@@ -134,7 +133,7 @@ function App() {
           }
         />
       </Routes>
-
+      
       <ToastContainer
         position="top-right"
         autoClose={3000}
