@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import useFetch from "../useFetch";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const ProductDetailPage = ({
   cart,
@@ -11,40 +11,44 @@ const ProductDetailPage = ({
   searchQuery,
   setSearchQuery,
 }) => {
-  const { id } = useParams();
+  const { id } = useParams();  
 
   const {
     data: product,
     loading,
     error,
-  } = useFetch(`https://major-project-1-backend-eta.vercel.app/products/${id}`);
+  } = useFetch(
+    `https://major-project-1-backend-alpha.vercel.app/products/${id}`
+  );
 
-  if (loading) return (
-    <>
-      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      <div className="container mt-4">
-        <div className="text-center">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
+  if (loading)
+    return (
+      <>
+        <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        <div className="container mt-4">
+          <div className="text-center">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+            <p className="mt-2">Loading product details...</p>
           </div>
-          <p className="mt-2">Loading product details...</p>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
 
-  if (error) return (
-    <>
-      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      <div className="container mt-4">
-        <div className="alert alert-danger text-center" role="alert">
-          <h4>Error Loading Product</h4>
-          <p>Error: {error}</p>
-          <p>Please try refreshing the page or go back to products.</p>
+  if (error)
+    return (
+      <>
+        <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        <div className="container mt-4">
+          <div className="alert alert-danger text-center" role="alert">
+            <h4>Error Loading Product</h4>
+            <p>Error: {error}</p>
+            <p>Please try refreshing the page or go back to products.</p>
+          </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
 
   if (!product) {
     return (
@@ -91,9 +95,9 @@ const ProductDetailPage = ({
       <div className="container mt-4">
         <div className="row">
           <div className="col-md-6">
-            <img 
-              src={product.image} 
-              className="img-fluid rounded shadow" 
+            <img
+              src={product.image}
+              className="img-fluid rounded shadow"
               alt={product.name}
               style={{ maxHeight: "500px", width: "100%" }}
             />
@@ -104,7 +108,9 @@ const ProductDetailPage = ({
               <h4 className="text-primary d-inline">
                 ₹{product.price}{" "}
                 {product.originalPrice && (
-                  <del className="text-muted fs-6">₹{product.originalPrice}</del>
+                  <del className="text-muted fs-6">
+                    ₹{product.originalPrice}
+                  </del>
                 )}
               </h4>
             </div>
@@ -142,7 +148,9 @@ const ProductDetailPage = ({
                 {isInCart ? "Cart Added ✅" : "Add to Cart"}
               </button>
               <button
-                className={`btn ${isInWishlist ? "btn-danger" : "btn-outline-danger"}`}
+                className={`btn ${
+                  isInWishlist ? "btn-danger" : "btn-outline-danger"
+                }`}
                 onClick={handleWishlist}
               >
                 {isInWishlist ? "❤️ Wishlisted" : "🤍 Add to Wishlist"}

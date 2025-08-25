@@ -1,36 +1,45 @@
+// src/useFetch.js
 import { useState, useEffect } from "react";
 
 const useFetch = (url) => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState(null); // Changed initial state to null
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+    let isMounted = true;
 
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
         const response = await fetch(url);
 
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         const result = await response.json();
-        setData(result);
+
+        if (isMounted) {
+          setData(result); // Set the data directly, whether it's an array or an object
+        }
       } catch (err) {
-        console.error("Fetch error:", err);
-        setError(err.message);
-        setData(null);
+        if (isMounted) {
+          setError(err.message || "Something went wrong");
+          setData(null); // Set data to null on error
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
 
-    if (url) {
-      fetchData();
-    }
+    fetchData();
+
+    return () => {
+      isMounted = false;
+    };
   }, [url]);
 
   return { data, loading, error };

@@ -32,7 +32,7 @@ const ProductCard = ({
 
   return (
     <div className="card h-100 mb-4">
-      <Link to={`/products/${product._id}`}>
+      <Link to={`/products/${product.id || product._id}`}>
         <div className="position-relative">
           <img
             src={product.image}
