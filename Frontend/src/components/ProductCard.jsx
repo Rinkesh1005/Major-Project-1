@@ -40,7 +40,6 @@ const ProductCard = ({
             alt={product.name}
             style={{ height: "250px", objectFit: "cover" }}
           />
-          {/* Rating badge on image */}
           <div className="position-absolute top-0 start-0 m-2">
             <span className="badge bg-success">
               ⭐ {product.rating}
