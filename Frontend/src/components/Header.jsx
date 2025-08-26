@@ -4,7 +4,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 const Header = ({ searchQuery, setSearchQuery, showSearch = true }) => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm py-4">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm py-4 mb-4">
       <div className="container-fluid">
         <Link className="navbar-brand fw-bold" to="/">
           MyShoppingSite
@@ -35,7 +35,7 @@ const Header = ({ searchQuery, setSearchQuery, showSearch = true }) => {
             </div>
           )}
 
-          <div className="d-flex align-items-center mt-2 mt-lg-0">
+          <div className="d-flex align-items-center ms-auto mt-2 mt-lg-0">
             <Link to="/" className="btn btn-outline-secondary me-2">
               Home
             </Link>

@@ -11,7 +11,7 @@ const ProductDetailPage = ({
   searchQuery,
   setSearchQuery,
 }) => {
-  const { id } = useParams();  
+  const { id } = useParams();
 
   const {
     data: product,
@@ -126,7 +126,15 @@ const ProductDetailPage = ({
             )}
             <hr />
             {product.description && (
-              <p className="mb-4">{product.description}</p>
+              <div className="mb-4">
+                <h5>Product Description</h5>
+                <p>{product.description}</p>
+                <ul>
+                  <li>High quality guaranteed</li>
+                  <li>7 days easy return policy</li>
+                  <li>Cash on delivery available</li>
+                </ul>
+              </div>
             )}
             {product.sizes && product.sizes.length > 0 && (
               <div className="d-flex align-items-center mb-3">

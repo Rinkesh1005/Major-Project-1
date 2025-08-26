@@ -1,10 +1,42 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import AddressCard from "../components/AddressCard";
 import { toast } from "react-toastify";
 
 const UserProfilePage = ({ searchQuery, setSearchQuery }) => {
-  const [addresses, setAddresses] = useState([]);
+  const [addresses, setAddresses] = useState(() => {
+    const saved = localStorage.getItem("addresses");
+    if (saved) return JSON.parse(saved);
+
+    const defaultAddresses = [
+      {
+        id: 1,
+        name: "Rahul Sharma",
+        street: "123 MG Road",
+        city: "Mumbai",
+        state: "Maharashtra",
+        zip: "400001",
+        phone: "9876543210",
+      },
+      {
+        id: 2,
+        name: "Anita Verma",
+        street: "45 Nehru Nagar",
+        city: "Delhi",
+        state: "Delhi",
+        zip: "110001",
+        phone: "9123456789",
+      },
+    ];
+
+    localStorage.setItem("addresses", JSON.stringify(defaultAddresses));
+    return defaultAddresses;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("addresses", JSON.stringify(addresses));
+  }, [addresses]);
+
   const [newAddress, setNewAddress] = useState({
     name: "",
     street: "",
@@ -13,11 +45,13 @@ const UserProfilePage = ({ searchQuery, setSearchQuery }) => {
     zip: "",
     phone: "",
   });
+
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [editAddressId, setEditAddressId] = useState(null);
 
   const handleAddOrUpdateAddress = (e) => {
     e.preventDefault();
+
     if (Object.values(newAddress).some((val) => val === "")) {
       toast.error("Please fill all address fields!");
       return;
@@ -50,6 +84,7 @@ const UserProfilePage = ({ searchQuery, setSearchQuery }) => {
 
   const handleRemoveAddress = (id) => {
     setAddresses(addresses.filter((addr) => addr.id !== id));
+    if (selectedAddressId === id) setSelectedAddressId(null);
   };
 
   const handleSelectAddress = (id) => {
@@ -156,6 +191,7 @@ const UserProfilePage = ({ searchQuery, setSearchQuery }) => {
               </form>
             </div>
           </div>
+
           <div className="col-md-6 py-4">
             <h5>Your Addresses</h5>
             {addresses.length === 0 ? (

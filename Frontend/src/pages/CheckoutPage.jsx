@@ -1,37 +1,50 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import AddressCard from "../components/AddressCard";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const initialAddresses = [
-  {
-    id: 1,
-    name: "Rahul Sharma",
-    street: "123 MG Road",
-    city: "Mumbai",
-    state: "Maharashtra",
-    zip: "400001",
-    phone: "9876543210",
-  },
-  {
-    id: 2,
-    name: "Anita Verma",
-    street: "45 Nehru Nagar",
-    city: "Delhi",
-    state: "Delhi",
-    zip: "110001",
-    phone: "9123456789",
-  },
-];
 
 const CheckoutPage = ({ searchQuery, setSearchQuery }) => {
   const location = useLocation();
   const { cart = [], totalAmount = 0 } = location.state || {};
 
+  const [addresses, setAddresses] = useState(() => {
+    const saved = localStorage.getItem("addresses");
+    if (saved) return JSON.parse(saved);
+    const defaultAddresses = [
+      {
+        id: 1,
+        name: "Rahul Sharma",
+        street: "123 MG Road",
+        city: "Mumbai",
+        state: "Maharashtra",
+        zip: "400001",
+        phone: "9876543210",
+      },
+      {
+        id: 2,
+        name: "Anita Verma",
+        street: "45 Nehru Nagar",
+        city: "Delhi",
+        state: "Delhi",
+        zip: "110001",
+        phone: "9123456789",
+      },
+    ];
+    localStorage.setItem("addresses", JSON.stringify(defaultAddresses));
+    return defaultAddresses;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("addresses", JSON.stringify(addresses));
+  }, [addresses]);
+
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
-  const [addresses, setAddresses] = useState(initialAddresses);
+
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingAddress, setEditingAddress] = useState(null);
 
   const handlePlaceOrder = () => {
     if (!selectedAddressId) {
@@ -55,14 +68,18 @@ const CheckoutPage = ({ searchQuery, setSearchQuery }) => {
   };
 
   const handleEdit = (address) => {
-    const newCity = prompt("Enter new city:", address.city);
-    if (!newCity) return;
+    setEditingAddress({ ...address });
+    setIsEditModalOpen(true);
+  };
 
+  const handleSaveEdit = (e) => {
+    e.preventDefault();
     const updated = addresses.map((addr) =>
-      addr.id === address.id ? { ...addr, city: newCity } : addr
+      addr.id === editingAddress.id ? editingAddress : addr
     );
     setAddresses(updated);
     toast.success("Address updated successfully!");
+    setIsEditModalOpen(false);
   };
 
   const selectedAddress = addresses.find((a) => a.id === selectedAddressId);
@@ -79,6 +96,27 @@ const CheckoutPage = ({ searchQuery, setSearchQuery }) => {
               <strong>Delivered to:</strong> {selectedAddress?.street},{" "}
               {selectedAddress?.city}
             </p>
+          </div>
+
+          <div className="card mt-4 text-start">
+            <div className="card-body">
+              <h4>Order Details</h4>
+              <ul className="list-group mb-3">
+                {cart.map((item) => (
+                  <li
+                    key={item.id}
+                    className="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    <div>
+                      <strong>{item.name}</strong> <br />
+                      <small>Quantity: {item.quantity}</small>
+                    </div>
+                    <span>₹{item.price * item.quantity}</span>
+                  </li>
+                ))}
+              </ul>
+              <h5>Total Amount: ₹{totalAmount}</h5>
+            </div>
           </div>
         </div>
       </>
@@ -154,6 +192,105 @@ const CheckoutPage = ({ searchQuery, setSearchQuery }) => {
           </div>
         </div>
       </div>
+
+      {isEditModalOpen && editingAddress && (
+        <div className="modal show d-block" tabIndex="-1">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <form onSubmit={handleSaveEdit}>
+                <div className="modal-header">
+                  <h5 className="modal-title">Edit Address</h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    onClick={() => setIsEditModalOpen(false)}
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <input
+                    className="form-control mb-2"
+                    value={editingAddress.name}
+                    onChange={(e) =>
+                      setEditingAddress({
+                        ...editingAddress,
+                        name: e.target.value,
+                      })
+                    }
+                    placeholder="Name"
+                  />
+                  <input
+                    className="form-control mb-2"
+                    value={editingAddress.street}
+                    onChange={(e) =>
+                      setEditingAddress({
+                        ...editingAddress,
+                        street: e.target.value,
+                      })
+                    }
+                    placeholder="Street"
+                  />
+                  <input
+                    className="form-control mb-2"
+                    value={editingAddress.city}
+                    onChange={(e) =>
+                      setEditingAddress({
+                        ...editingAddress,
+                        city: e.target.value,
+                      })
+                    }
+                    placeholder="City"
+                  />
+                  <input
+                    className="form-control mb-2"
+                    value={editingAddress.state}
+                    onChange={(e) =>
+                      setEditingAddress({
+                        ...editingAddress,
+                        state: e.target.value,
+                      })
+                    }
+                    placeholder="State"
+                  />
+                  <input
+                    className="form-control mb-2"
+                    value={editingAddress.zip}
+                    onChange={(e) =>
+                      setEditingAddress({
+                        ...editingAddress,
+                        zip: e.target.value,
+                      })
+                    }
+                    placeholder="Zip Code"
+                  />
+                  <input
+                    className="form-control mb-2"
+                    value={editingAddress.phone}
+                    onChange={(e) =>
+                      setEditingAddress({
+                        ...editingAddress,
+                        phone: e.target.value,
+                      })
+                    }
+                    placeholder="Phone"
+                  />
+                </div>
+                <div className="modal-footer">
+                  <button type="submit" className="btn btn-primary">
+                    Save Changes
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => setIsEditModalOpen(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
