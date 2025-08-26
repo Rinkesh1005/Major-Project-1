@@ -23,7 +23,7 @@ const ProductListPage = ({
   });
 
   const { data, loading, error } = useFetch(
-    "https://major-project-1-backend-alpha.vercel.app/products"
+    "https://major-project-1-backend-rho.vercel.app/products"
   );
 
   const products = Array.isArray(data) ? data : [];
