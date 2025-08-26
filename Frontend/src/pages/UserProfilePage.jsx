@@ -127,8 +127,8 @@ const UserProfilePage = ({ searchQuery, setSearchQuery }) => {
 
         <h4 className="mt-5">Manage Addresses</h4>
         <div className="row mt-3">
-          <div className="col-md-6">
-            <div className="card p-4">
+          <div className="col-md-6 mb-4">
+            <div className="card p-4 h-100">
               <h5>{editAddressId ? "Edit Address" : "Add New Address"}</h5>
               <form onSubmit={handleAddOrUpdateAddress}>
                 <input
@@ -192,7 +192,8 @@ const UserProfilePage = ({ searchQuery, setSearchQuery }) => {
             </div>
           </div>
 
-          <div className="col-md-6 py-4">
+          <div className="col-md-6 mb-4">
+            
             <h5>Your Addresses</h5>
             {addresses.length === 0 ? (
               <p>No addresses added yet.</p>
@@ -216,3 +217,4 @@ const UserProfilePage = ({ searchQuery, setSearchQuery }) => {
 };
 
 export default UserProfilePage;
+
