@@ -17,7 +17,7 @@ const ProductDetailPage = ({
     data: product,
     loading,
     error,
-  } = useFetch(`https://major-project-1-backend-rho.vercel.app/products/${id}`);
+  } = useFetch(`https://major-project-1-backend-theta.vercel.app/products/${id}`);
 
   if (loading)
     return (
