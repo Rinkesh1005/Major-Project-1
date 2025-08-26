@@ -36,8 +36,11 @@ const ProductListPage = ({
       ) {
         return false;
       }
-      if (filters.category && p.category !== filters.category) {
-        return false;
+      if (filters.category) {
+        const categories = filters.category.split(",").filter(Boolean);
+        if (categories.length > 0 && !categories.includes(p.category)) {
+          return false;
+        }
       }
       if (p.rating < filters.rating) {
         return false;
@@ -86,12 +89,11 @@ const ProductListPage = ({
     return wishlist.some((item) => item.id === productId);
   };
 
-  // 🔹 Loading state with spinner after Header
   if (loading)
     return (
       <>
         <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <div className="container mt-4 text-center">
+        <div className="container mt-4 mb-5 text-center">
           <div className="spinner-border text-primary" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
@@ -104,7 +106,7 @@ const ProductListPage = ({
     return (
       <>
         <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <div className="container mt-4">
+        <div className="container mt-4 mb-5">
           <div className="alert alert-danger text-center" role="alert">
             <h4>Error Loading Products</h4>
             <p>{error || "Invalid response from server"}</p>
@@ -116,7 +118,7 @@ const ProductListPage = ({
   return (
     <>
       <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      <div className="container-fluid mt-3">
+      <div className="container mt-3 mb-5">
         <div className="row">
           <div className="col-md-3">
             <Filter filters={filters} setFilters={setFilters} />

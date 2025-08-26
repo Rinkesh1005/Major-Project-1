@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const Header = ({ searchQuery, setSearchQuery, showSearch = true }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm py-4 mb-4">
-      <div className="container-fluid">
+      <div className="container">
         <Link className="navbar-brand fw-bold" to="/">
           MyShoppingSite
         </Link>
@@ -36,20 +37,35 @@ const Header = ({ searchQuery, setSearchQuery, showSearch = true }) => {
           )}
 
           <div className="d-flex align-items-center ms-auto mt-2 mt-lg-0">
-            <Link to="/" className="btn btn-outline-secondary me-2">
+            <Link to="/" className="btn btn-outline-secondary me-2 d-none d-lg-inline">
               Home
             </Link>
-            <Link to="/products" className="btn btn-outline-secondary me-2">
-              Product
+            <Link to="/" className="btn btn-outline-secondary me-2 d-lg-none">
+              <i className="bi bi-house"></i>
             </Link>
-            <Link to="/wishlist" className="btn btn-outline-secondary me-2">
+            <Link to="/products" className="btn btn-outline-secondary me-2 d-none d-lg-inline">
+              Products
+            </Link>
+            <Link to="/products" className="btn btn-outline-secondary me-2 d-lg-none">
+              <i className="bi bi-shop"></i>
+            </Link>
+            <Link to="/wishlist" className="btn btn-outline-secondary me-2 d-none d-lg-inline">
               Wishlist
             </Link>
-            <Link to="/cart" className="btn btn-outline-secondary me-2">
+            <Link to="/wishlist" className="btn btn-outline-secondary me-2 d-lg-none">
+              <i className="bi bi-heart"></i>
+            </Link>
+            <Link to="/cart" className="btn btn-outline-secondary me-2 d-none d-lg-inline">
               Cart
             </Link>
-            <Link to="/profile" className="btn btn-outline-secondary">
+            <Link to="/cart" className="btn btn-outline-secondary me-2 d-lg-none">
+              <i className="bi bi-cart"></i>
+            </Link>
+            <Link to="/profile" className="btn btn-outline-secondary d-none d-lg-inline">
               Profile
+            </Link>
+            <Link to="/profile" className="btn btn-outline-secondary d-lg-none">
+              <i className="bi bi-person"></i>
             </Link>
           </div>
         </div>

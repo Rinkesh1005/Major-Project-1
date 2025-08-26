@@ -4,7 +4,6 @@ import AddressCard from "../components/AddressCard";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
-
 const CheckoutPage = ({ searchQuery, setSearchQuery }) => {
   const location = useLocation();
   const { cart = [], totalAmount = 0 } = location.state || {};
@@ -42,7 +41,6 @@ const CheckoutPage = ({ searchQuery, setSearchQuery }) => {
 
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
-
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingAddress, setEditingAddress] = useState(null);
 
@@ -74,12 +72,18 @@ const CheckoutPage = ({ searchQuery, setSearchQuery }) => {
 
   const handleSaveEdit = (e) => {
     e.preventDefault();
-    const updated = addresses.map((addr) =>
+    if (Object.values(editingAddress).some((val) => val === "")) {
+      toast.error("Please fill all address fields!");
+      return;
+    }
+    const updatedAddresses = addresses.map((addr) =>
       addr.id === editingAddress.id ? editingAddress : addr
     );
-    setAddresses(updated);
+    setAddresses(updatedAddresses);
+    localStorage.setItem("addresses", JSON.stringify(updatedAddresses));
     toast.success("Address updated successfully!");
     setIsEditModalOpen(false);
+    setEditingAddress(null);
   };
 
   const selectedAddress = addresses.find((a) => a.id === selectedAddressId);
@@ -88,7 +92,7 @@ const CheckoutPage = ({ searchQuery, setSearchQuery }) => {
     return (
       <>
         <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <div className="container mt-4 text-center">
+        <div className="container mt-4 mb-5 text-center">
           <div className="alert alert-success mt-5" role="alert">
             <h2>Order Placed Successfully!</h2>
             <p>Thank you for your purchase.</p>
@@ -110,6 +114,9 @@ const CheckoutPage = ({ searchQuery, setSearchQuery }) => {
                     <div>
                       <strong>{item.name}</strong> <br />
                       <small>Quantity: {item.quantity}</small>
+                      {item.selectedSize && (
+                        <small> | Size: {item.selectedSize}</small>
+                      )}
                     </div>
                     <span>₹{item.price * item.quantity}</span>
                   </li>
@@ -127,7 +134,7 @@ const CheckoutPage = ({ searchQuery, setSearchQuery }) => {
     return (
       <>
         <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <div className="container mt-5 text-center">
+        <div className="container mt-5 mb-5 text-center">
           <div className="alert alert-warning" role="alert">
             <h4>No Orders Found</h4>
             <p>Your cart is empty. Please add items before checkout.</p>
@@ -140,7 +147,7 @@ const CheckoutPage = ({ searchQuery, setSearchQuery }) => {
   return (
     <>
       <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      <div className="container mt-4">
+      <div className="container mt-4 mb-5">
         <h2 className="mb-4">Checkout</h2>
         <div className="row mt-4">
           <div className="col-md-8">
@@ -167,6 +174,9 @@ const CheckoutPage = ({ searchQuery, setSearchQuery }) => {
                     <div>
                       <strong>{item.name}</strong> <br />
                       <small>Quantity: {item.quantity}</small>
+                      {item.selectedSize && (
+                        <small> | Size: {item.selectedSize}</small>
+                      )}
                     </div>
                     <span>₹{item.price * item.quantity}</span>
                   </li>
@@ -175,7 +185,7 @@ const CheckoutPage = ({ searchQuery, setSearchQuery }) => {
             </div>
           </div>
 
-          <div className="col-md-4 mt-4">
+          <div className="col-md-4 mt-5">
             <div className="card">
               <div className="card-body">
                 <h5>Price Details</h5>

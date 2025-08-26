@@ -12,7 +12,7 @@ const AddressCard = ({ address, onSelect, onRemove, onEdit, isSelected }) => {
         <p className="card-text mb-1">Phone: {address.phone}</p>
         <div className="mt-3">
           <button
-            className="btn btn-sm btn-outline-primary me-2"
+            className={`btn btn-sm ${isSelected ? "btn-primary" : "btn-outline-primary"} me-2`}
             onClick={() => onSelect(address.id)}
           >
             {isSelected ? "Selected" : "Select"}

@@ -57,21 +57,16 @@ const UserProfilePage = ({ searchQuery, setSearchQuery }) => {
       return;
     }
 
-    if (editAddressId) {
-      setAddresses(
-        addresses.map((addr) =>
-          addr.id === editAddressId
-            ? { ...newAddress, id: editAddressId }
-            : addr
+    const updatedAddresses = editAddressId
+      ? addresses.map((addr) =>
+          addr.id === editAddressId ? { ...newAddress, id: editAddressId } : addr
         )
-      );
-      setEditAddressId(null);
-      toast.success("Address updated!");
-    } else {
-      setAddresses([...addresses, { ...newAddress, id: Date.now() }]);
-      toast.success("Address added!");
-    }
+      : [...addresses, { ...newAddress, id: Date.now() }];
 
+    setAddresses(updatedAddresses);
+    localStorage.setItem("addresses", JSON.stringify(updatedAddresses));
+    toast.success(editAddressId ? "Address updated!" : "Address added!");
+    setEditAddressId(null);
     setNewAddress({
       name: "",
       street: "",
@@ -83,8 +78,11 @@ const UserProfilePage = ({ searchQuery, setSearchQuery }) => {
   };
 
   const handleRemoveAddress = (id) => {
-    setAddresses(addresses.filter((addr) => addr.id !== id));
+    const updatedAddresses = addresses.filter((addr) => addr.id !== id);
+    setAddresses(updatedAddresses);
+    localStorage.setItem("addresses", JSON.stringify(updatedAddresses));
     if (selectedAddressId === id) setSelectedAddressId(null);
+    toast.info("Address removed!");
   };
 
   const handleSelectAddress = (id) => {
@@ -106,7 +104,7 @@ const UserProfilePage = ({ searchQuery, setSearchQuery }) => {
   return (
     <>
       <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      <div className="container mt-4">
+      <div className="container mt-4 mb-5">
         <h2>My Profile</h2>
         <div className="row mt-4">
           <div className="col-md-6">
@@ -193,7 +191,6 @@ const UserProfilePage = ({ searchQuery, setSearchQuery }) => {
           </div>
 
           <div className="col-md-6 mb-4">
-            
             <h5>Your Addresses</h5>
             {addresses.length === 0 ? (
               <p>No addresses added yet.</p>
@@ -217,4 +214,3 @@ const UserProfilePage = ({ searchQuery, setSearchQuery }) => {
 };
 
 export default UserProfilePage;
-

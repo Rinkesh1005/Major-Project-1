@@ -39,11 +39,11 @@ const WishlistPage = ({
   return (
     <>
       <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      <div className="container mt-4">
+      <div className="container mt-4 mb-5">
         <h2 className="mb-4">My Wishlist ({filteredWishlist.length} items)</h2>
         <div className="row mt-4">
           {filteredWishlist.length === 0 ? (
-            <div className="col-12 text-center">
+            <div className="col-12">
               <p className="lead">Your wishlist is empty.</p>
             </div>
           ) : (
@@ -54,7 +54,7 @@ const WishlistPage = ({
                     src={item.image}
                     className="card-img-top"
                     alt={item.name}
-                    style={{ height: "250px", objectFit: "cover" }}
+                    style={{ height: "250px", objectFit: "contain", backgroundColor: "#f8f9fa" }}
                   />
                   <div className="card-body text-center d-flex flex-column">
                     <h5 className="card-title">{item.name}</h5>
@@ -64,6 +64,11 @@ const WishlistPage = ({
                     {item.rating && (
                       <p className="card-text">
                         <small className="text-muted">⭐ {item.rating}</small>
+                      </p>
+                    )}
+                    {item.selectedSize && (
+                      <p className="card-text">
+                        <small>Size: {item.selectedSize}</small>
                       </p>
                     )}
                     <div className="mt-auto d-flex gap-2 justify-content-center">

@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import useFetch from "../useFetch";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 const ProductDetailPage = ({
   cart,
@@ -12,6 +13,7 @@ const ProductDetailPage = ({
   setSearchQuery,
 }) => {
   const { id } = useParams();
+  const [selectedSize, setSelectedSize] = useState("");
 
   const {
     data: product,
@@ -23,7 +25,7 @@ const ProductDetailPage = ({
     return (
       <>
         <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <div className="container mt-4">
+        <div className="container mt-4 mb-5">
           <div className="text-center">
             <div className="spinner-border text-primary" role="status">
               <span className="visually-hidden">Loading...</span>
@@ -38,7 +40,7 @@ const ProductDetailPage = ({
     return (
       <>
         <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <div className="container mt-4">
+        <div className="container mt-4 mb-5">
           <div className="alert alert-danger text-center" role="alert">
             <h4>Error Loading Product</h4>
             <p>Error: {error}</p>
@@ -52,7 +54,7 @@ const ProductDetailPage = ({
     return (
       <>
         <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <div className="container mt-4">
+        <div className="container mt-4 mb-5">
           <div className="alert alert-warning text-center" role="alert">
             <h2>Product not found.</h2>
             <p>The product you're looking for doesn't exist.</p>
@@ -62,12 +64,16 @@ const ProductDetailPage = ({
     );
   }
 
-  const finalProduct = { ...product, id: product.id || product._id };
+  const finalProduct = { ...product, id: product.id || product._id, selectedSize };
 
   const isInCart = cart.some((item) => item.id === finalProduct.id);
   const isInWishlist = wishlist.some((item) => item.id === finalProduct.id);
 
   const handleCart = () => {
+    if (!selectedSize && product.sizes?.length > 0) {
+      toast.error("Please select a size before adding to cart!");
+      return;
+    }
     if (isInCart) {
       setCart(cart.filter((item) => item.id !== finalProduct.id));
       toast.error(`${product.name} removed from cart!`);
@@ -90,7 +96,7 @@ const ProductDetailPage = ({
   return (
     <>
       <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      <div className="container mt-4">
+      <div className="container mt-4 mb-5">
         <div className="row">
           <div className="col-md-6">
             <img
@@ -137,7 +143,12 @@ const ProductDetailPage = ({
             {product.sizes && product.sizes.length > 0 && (
               <div className="d-flex align-items-center mb-3">
                 <label className="me-2">Size:</label>
-                <select className="form-select w-auto">
+                <select
+                  className="form-select w-auto"
+                  value={selectedSize}
+                  onChange={(e) => setSelectedSize(e.target.value)}
+                >
+                  <option value="">Select Size</option>
                   {product.sizes.map((size) => (
                     <option key={size} value={size}>
                       {size}

@@ -57,7 +57,7 @@ const CartPage = ({
   return (
     <>
       <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      <div className="container mt-4">
+      <div className="container mt-4 mb-5">
         <h2 className="mb-4">My Cart ({filteredCart.length} items)</h2>
         <div className="row mt-4">
           <div className="col-lg-8">
@@ -75,6 +75,9 @@ const CartPage = ({
                     <div className="flex-grow-1">
                       <h5>{item.name}</h5>
                       <p className="text-primary fw-bold">₹{item.price}</p>
+                      {item.selectedSize && (
+                        <p><strong>Size:</strong> {item.selectedSize}</p>
+                      )}
                       <div className="d-flex align-items-center mb-2">
                         <label className="me-2">Quantity:</label>
                         <button

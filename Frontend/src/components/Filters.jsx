@@ -1,9 +1,24 @@
 const Filter = ({ filters, setFilters }) => {
   const handleCategoryChange = (e) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      category: e.target.value,
-    }));
+    const { value, checked } = e.target;
+    setFilters((prevFilters) => {
+      const currentCategories = prevFilters.category
+        ? prevFilters.category.split(",").filter(Boolean)
+        : [];
+      if (checked) {
+        return {
+          ...prevFilters,
+          category: [...currentCategories, value].join(","),
+        };
+      } else {
+        return {
+          ...prevFilters,
+          category: currentCategories
+            .filter((cat) => cat !== value)
+            .join(","),
+        };
+      }
+    });
   };
 
   const handleRatingChange = (e) => {
@@ -41,59 +56,29 @@ const Filter = ({ filters, setFilters }) => {
         <div className="form-check">
           <input
             className="form-check-input"
-            type="radio"
+            type="checkbox"
             name="categoryFilter"
             value=""
             checked={filters.category === ""}
             onChange={handleCategoryChange}
+            disabled={filters.category !== ""}
           />
           <label className="form-check-label">All</label>
         </div>
 
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="categoryFilter"
-            value="Men"
-            checked={filters.category === "Men"}
-            onChange={handleCategoryChange}
-          />
-          <label className="form-check-label">Men</label>
-        </div>
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="categoryFilter"
-            value="Women"
-            checked={filters.category === "Women"}
-            onChange={handleCategoryChange}
-          />
-          <label className="form-check-label">Women</label>
-        </div>
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="categoryFilter"
-            value="Kids"
-            checked={filters.category === "Kids"}
-            onChange={handleCategoryChange}
-          />
-          <label className="form-check-label">Kids</label>
-        </div>
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="categoryFilter"
-            value="Electronics"
-            checked={filters.category === "Electronics"}
-            onChange={handleCategoryChange}
-          />
-          <label className="form-check-label">Electronics</label>
-        </div>
+        {["Men", "Women", "Kids", "Electronics"].map((category) => (
+          <div className="form-check" key={category}>
+            <input
+              className="form-check-input"
+              type="checkbox"
+              name="categoryFilter"
+              value={category}
+              checked={filters.category.includes(category)}
+              onChange={handleCategoryChange}
+            />
+            <label className="form-check-label">{category}</label>
+          </div>
+        ))}
       </div>
 
       <div className="mb-3">
