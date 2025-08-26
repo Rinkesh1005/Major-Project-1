@@ -86,12 +86,31 @@ const ProductListPage = ({
     return wishlist.some((item) => item.id === productId);
   };
 
-  if (loading) return <p className="container py-2">Loading products...</p>;
+  // 🔹 Loading state with spinner after Header
+  if (loading)
+    return (
+      <>
+        <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        <div className="container mt-4 text-center">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="mt-2">Loading products...</p>
+        </div>
+      </>
+    );
+
   if (error || !Array.isArray(data))
     return (
-      <p className="container py-2">
-        Error loading products: {error || "Invalid response from server"}
-      </p>
+      <>
+        <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        <div className="container mt-4">
+          <div className="alert alert-danger text-center" role="alert">
+            <h4>Error Loading Products</h4>
+            <p>{error || "Invalid response from server"}</p>
+          </div>
+        </div>
+      </>
     );
 
   return (
