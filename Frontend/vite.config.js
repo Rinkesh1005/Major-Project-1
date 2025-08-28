@@ -14,6 +14,7 @@ export default defineConfig({
   plugins: [react()],
   define: {
     __DEFINES__: {}, 
-    __HMR_CONFIG_NAME__: undefined
+    __HMR_CONFIG_NAME__: undefined,
+    __BASE__: '"/"',
   },
 })
