@@ -78,25 +78,26 @@ const ProductCard = ({
           </div>
         )}
 
-        <div className="d-flex justify-content-between mt-auto">
-          <button
-            className={`btn btn-sm px-3 rounded-pill shadow-sm ${
-              addedToCart ? "btn-success" : "btn-primary"
-            }`}
-            onClick={handleAddToCart}
-          >
-            {addedToCart ? "✅ Cart Added" : "Add to Cart"}
-          </button>
+        <div className="d-flex flex-wrap gap-2 mt-auto">
+  <button
+    className={`btn btn-sm flex-grow-1 px-3 rounded-pill shadow-sm ${
+      addedToCart ? "btn-success" : "btn-primary"
+    }`}
+    onClick={handleAddToCart}
+  >
+    {addedToCart ? "✅ Cart Added" : "Add to Cart"}
+  </button>
 
-          <button
-            className={`btn btn-sm px-3 rounded-pill shadow-sm ${
-              isWishlisted ? "btn-danger" : "btn-outline-danger"
-            }`}
-            onClick={handleWishlist}
-          >
-            {isWishlisted ? "❤️ Wishlisted" : "🤍 Wishlist"}
-          </button>
-        </div>
+  <button
+    className={`btn btn-sm flex-grow-1 px-3 rounded-pill shadow-sm ${
+      isWishlisted ? "btn-danger" : "btn-outline-danger"
+    }`}
+    onClick={handleWishlist}
+  >
+    {isWishlisted ? "❤️ Wishlisted" : "🤍 Add to Wishlist"}
+  </button>
+</div>
+
       </div>
     </div>
   );

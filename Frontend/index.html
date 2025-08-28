@@ -2,12 +2,27 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+
+    <!-- Favicon -->
+    <link type="image/png" sizes="16x16" rel="icon" href="/web/icons8-shopping-cart-bubbles-16.png" />
+    <link type="image/png" sizes="32x32" rel="icon" href="/web/icons8-shopping-cart-bubbles-32.png" />
+    <link type="image/png" sizes="96x96" rel="icon" href="/web/icons8-shopping-cart-bubbles-96.png" />
+
+    <!-- Meta Tags -->
+    <meta name="description" content="Best E-commerce website for shopping" />
+    <meta name="keywords" content="shopping, ecommerce, cart, online store" />
+    <meta name="author" content="Your Name" />
+
+    <title>My Shopping App</title>
   </head>
   <body>
     <div id="root"></div>
+    
+    <!-- Vite preamble (React Fast Refresh ke liye zaroori) -->
+    <script type="module" src="/@vite/client"></script>
+
+    <!-- Main entry -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
