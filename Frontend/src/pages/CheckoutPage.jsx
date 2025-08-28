@@ -146,7 +146,7 @@ const CheckoutPage = ({ searchQuery, setSearchQuery }) => {
 
   return (
     <>
-      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      {/* <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery}  /> */}
       <div className="container mt-4 mb-5">
         <h2 className="mb-4">Checkout</h2>
         <div className="row mt-4">

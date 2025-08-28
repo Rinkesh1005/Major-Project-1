@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 
-const HomePage = ({ searchQuery, setSearchQuery }) => {
+// const HomePage = ({ searchQuery, setSearchQuery }) => {
+const HomePage = () => {
   const categoryImages = {
     Men: "https://images.unsplash.com/photo-1496345875659-11f7dd282d1d?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     Women: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=1600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8d29tZW58ZW58MHx8MHx8fDA%3D",
@@ -11,11 +12,12 @@ const HomePage = ({ searchQuery, setSearchQuery }) => {
 
   return (
     <>
-      <Header
+      {/* <Header
         showSearch={false}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-      />
+        
+      /> */}
       <div className="container mt-4 mb-5">
         <div className="text-center mb-5">
           <img

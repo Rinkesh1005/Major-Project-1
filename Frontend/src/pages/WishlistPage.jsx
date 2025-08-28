@@ -7,7 +7,7 @@ const WishlistPage = ({
   cart,
   setCart,
   searchQuery,
-  setSearchQuery,
+  // setSearchQuery,
 }) => {
   const removeFromWishlist = (productId) => {
     const item = wishlist.find((item) => item.id === productId);
@@ -38,7 +38,12 @@ const WishlistPage = ({
 
   return (
     <>
-      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      {/* <Header
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        cart={cart}
+        wishlist={wishlist}
+      /> */}
       <div className="container mt-4 mb-5">
         <h2 className="mb-4">My Wishlist ({filteredWishlist.length} items)</h2>
         <div className="row mt-4">
@@ -54,7 +59,11 @@ const WishlistPage = ({
                     src={item.image}
                     className="card-img-top"
                     alt={item.name}
-                    style={{ height: "250px", objectFit: "contain", backgroundColor: "#f8f9fa" }}
+                    style={{
+                      height: "250px",
+                      objectFit: "contain",
+                      backgroundColor: "#f8f9fa",
+                    }}
                   />
                   <div className="card-body text-center d-flex flex-column">
                     <h5 className="card-title">{item.name}</h5>

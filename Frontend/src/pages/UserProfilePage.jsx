@@ -3,7 +3,8 @@ import Header from "../components/Header";
 import AddressCard from "../components/AddressCard";
 import { toast } from "react-toastify";
 
-const UserProfilePage = ({ searchQuery, setSearchQuery }) => {
+// const UserProfilePage = ({ searchQuery, setSearchQuery }) => {
+const UserProfilePage = () => {
   const [addresses, setAddresses] = useState(() => {
     const saved = localStorage.getItem("addresses");
     if (saved) return JSON.parse(saved);
@@ -103,7 +104,7 @@ const UserProfilePage = ({ searchQuery, setSearchQuery }) => {
 
   return (
     <>
-      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      {/* <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} /> */}
       <div className="container mt-4 mb-5">
         <h2>My Profile</h2>
         <div className="row mt-4">

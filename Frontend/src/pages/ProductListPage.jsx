@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Header from "../components/Header";
 import ProductCard from "../components/ProductCard";
 import Filter from "../components/Filters";
 import { useSearchParams } from "react-router-dom";
@@ -11,7 +10,7 @@ const ProductListPage = ({
   wishlist,
   setWishlist,
   searchQuery,
-  setSearchQuery,
+  // setSearchQuery,
 }) => {
   const [searchParams] = useSearchParams();
   const initialCategory = searchParams.get("category") || "";
@@ -91,65 +90,56 @@ const ProductListPage = ({
 
   if (loading)
     return (
-      <>
-        <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <div className="container mt-4 mb-5 text-center">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-          <p className="mt-2">Loading products...</p>
+      <div className="container mt-4 mb-5 text-center">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
         </div>
-      </>
+        <p className="mt-2">Loading products...</p>
+      </div>
     );
 
   if (error || !Array.isArray(data))
     return (
-      <>
-        <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <div className="container mt-4 mb-5">
-          <div className="alert alert-danger text-center" role="alert">
-            <h4>Error Loading Products</h4>
-            <p>{error || "Invalid response from server"}</p>
-          </div>
+      <div className="container mt-4 mb-5">
+        <div className="alert alert-danger text-center" role="alert">
+          <h4>Error Loading Products</h4>
+          <p>{error || "Invalid response from server"}</p>
         </div>
-      </>
+      </div>
     );
 
   return (
-    <>
-      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      <div className="container mt-3 mb-5">
-        <div className="row">
-          <div className="col-md-3">
-            <Filter filters={filters} setFilters={setFilters} />
-          </div>
-          <div className="col-md-9">
-            <h2 className="py-3">
-              Showing All Products ({filteredProducts.length} products)
-            </h2>
-            <div className="row row-cols-1 row-cols-md-3 g-4">
-              {filteredProducts.map((product) => {
-                const productWithId = {
-                  ...product,
-                  id: product.id || product._id,
-                };
+    <div className="container mt-3 mb-5">
+      <div className="row">
+        <div className="col-md-3">
+          <Filter filters={filters} setFilters={setFilters} />
+        </div>
+        <div className="col-md-9">
+          <h2 className="py-3">
+            Showing All Products ({filteredProducts.length} products)
+          </h2>
+          <div className="row row-cols-1 row-cols-md-3 g-4">
+            {filteredProducts.map((product) => {
+              const productWithId = {
+                ...product,
+                id: product.id || product._id,
+              };
 
-                return (
-                  <div key={productWithId.id} className="col mb-4">
-                    <ProductCard
-                      product={productWithId}
-                      onAddToCart={onAddToCart}
-                      onAddToWishlist={onAddToWishlist}
-                      isWishlisted={isWishlisted(productWithId.id)}
-                    />
-                  </div>
-                );
-              })}
-            </div>
+              return (
+                <div key={productWithId.id} className="col mb-4">
+                  <ProductCard
+                    product={productWithId}
+                    onAddToCart={onAddToCart}
+                    onAddToWishlist={onAddToWishlist}
+                    isWishlisted={isWishlisted(productWithId.id)}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

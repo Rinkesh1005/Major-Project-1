@@ -8,7 +8,7 @@ const CartPage = ({
   wishlist,
   setWishlist,
   searchQuery,
-  setSearchQuery,
+  // setSearchQuery,
 }) => {
   const navigate = useNavigate();
 
@@ -56,7 +56,12 @@ const CartPage = ({
 
   return (
     <>
-      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      {/* <Header
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        cart={cart}
+        wishlist={wishlist}
+      /> */}
       <div className="container mt-4 mb-5">
         <h2 className="mb-4">My Cart ({filteredCart.length} items)</h2>
         <div className="row mt-4">
@@ -76,7 +81,9 @@ const CartPage = ({
                       <h5>{item.name}</h5>
                       <p className="text-primary fw-bold">₹{item.price}</p>
                       {item.selectedSize && (
-                        <p><strong>Size:</strong> {item.selectedSize}</p>
+                        <p>
+                          <strong>Size:</strong> {item.selectedSize}
+                        </p>
                       )}
                       <div className="d-flex align-items-center mb-2">
                         <label className="me-2">Quantity:</label>
