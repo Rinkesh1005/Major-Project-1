@@ -136,6 +136,8 @@ function App() {
             <CheckoutPage
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
+              cart={cart}
+              setCart={setCart}
             />
           }
         />

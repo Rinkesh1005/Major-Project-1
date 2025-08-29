@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import Header from "../components/Header";
+// import Header from "../components/Header";
 import AddressCard from "../components/AddressCard";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const CheckoutPage = ({ searchQuery, setSearchQuery }) => {
+const CheckoutPage = ({ searchQuery, setSearchQuery, cart, setCart }) => {
   const location = useLocation();
-  const { cart = [], totalAmount = 0 } = location.state || {};
+  const { totalAmount = 0 } = location.state || {};
 
   const [addresses, setAddresses] = useState(() => {
     const saved = localStorage.getItem("addresses");
@@ -50,6 +50,8 @@ const CheckoutPage = ({ searchQuery, setSearchQuery }) => {
       return;
     }
     setOrderPlaced(true);
+    setCart([]);
+    localStorage.removeItem("cart");
     toast.success("Order placed successfully!");
   };
 
@@ -91,7 +93,7 @@ const CheckoutPage = ({ searchQuery, setSearchQuery }) => {
   if (orderPlaced) {
     return (
       <>
-        <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        {/* <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} /> */}
         <div className="container mt-4 mb-5 text-center">
           <div className="alert alert-success mt-5" role="alert">
             <h2>Order Placed Successfully!</h2>
